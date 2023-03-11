@@ -1,8 +1,17 @@
 import os, shutil
 
-showName = input('Show Name?: ')
-season = input('Season?: ')
-episode = 1
+#Set to 1 to enable custom naming, 0 to disable
+custom = 1
+
+if custom != 1:
+    showName = input('Show Name?: ')
+    season = input('Season?: ')
+    ext = input('EXT?: ')
+    if len(str(season)) == 1:
+        season = '0' + str(season)
+    else:
+        season = season
+counter = 1
 renameList = []
 
 print('')
@@ -11,20 +20,21 @@ for file in os.listdir('.'):
     if file == 'massRename.py':
         continue
 
-    if len(str(episode)) == 1:
-        curEpisode = '0' + str(episode)
+    if len(str(counter)) == 1:
+        episode = '0' + str(counter)
     else:
-        curEpisode = episode
-    if len(str(season)) == 1:
-        curSeason = '0' + str(season)
+        episode = counter
+
+    if custom != 1:
+        newFile = showName + ' S' + season + 'E' + str(episode) + '.' + ext
     else:
-        curSeason = season
-    
-    newFile = showName + ' S' + curSeason + 'E' + str(curEpisode) + '.mkv'
+        #Enter new name for files if using custom naming
+        newFile = ''
+        
 
     print(file + ' >> ' + newFile)
     renameList.append([file] + [newFile])
-    episode += 1
+    counter += 1
 
 if input('\nType Y to accept: ') != 'Y':
     exit()
